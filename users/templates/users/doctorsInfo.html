@@ -1,0 +1,118 @@
+{% extends "doctors/index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- container -->
+{% block content %}
+    <body class="single-page">
+    <header class="site-header">
+        <div class="nav-bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="site-branding d-flex align-items-center">
+                            <a class="d-block" href="index.html" rel="home"><img class="d-block"
+                                                                                 src="{% static 'assets/images/logo.png' %}"
+                                                                                 alt="logo"></a>
+                        </div><!-- .site-branding -->
+
+                        <nav class="site-navigation d-flex justify-content-end align-items-center">
+                            <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-items-center">
+                                <li class="current-menu-item"><a href="{% url 'index' %}">Home</a></li>
+                                <li><a href="{% url 'about' %}">About us</a></li>
+                                <li><a href="{% url 'services' %}">Services</a></li>
+                                <li><a href="{% url 'news' %}">News</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+
+                                <li class="call-btn button gradient-bg mt-3 mt-md-0">
+                                    <a class="d-flex justify-content-center align-items-center" href="#"><img
+                                            src="{% static 'assets/images/emergency-call.png' %}"> +34 586 778 8892</a>
+                                </li>
+                            </ul>
+                        </nav><!-- .site-navigation -->
+
+                        <div class="hamburger-menu d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div><!-- .hamburger-menu -->
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .container -->
+        </div><!-- .nav-bar -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Doctors of Informations</h1>
+
+                    <div class="breadcrumbs">
+                        <ul class="d-flex flex-wrap align-items-center p-0 m-0">
+                            <li><a href="#">Home</a></li>
+                            <li>Profile</li>
+                        </ul>
+                    </div><!-- .breadcrumbs -->
+
+                </div>
+            </div>
+        </div>
+
+        <img class="header-img" src="{% static 'assets/images/about-bg.png' %}" alt="">
+    </header><!-- .site-header -->
+    <div class="container">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-12" style="background-color: aliceblue; border-radius: 15px">
+                <div class="col-12" style="text-align: center">
+                    <img class="rounded-circle account-img" src="{{ doctors.profile.photo.url }}">
+                    <br>
+                    <h2 class="account-heading"> {{ doctors.first_name }} {{ doctors.last_name }}</h2>
+                </div>
+                <div class="col-12">
+
+                    <p class="text-secondary"> {{ doctors.profile.about|safe }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-comment-section form-control">
+            {{ comments.count }} Comment{{ comments|pluralize }}
+            {% for comment in comments %}
+                {% if comment.post.username == doctors.username %}
+                    <blockquote class="blockquote">
+                        <p class="mb-0"> {{ comment.comment }}</p>
+                        <p class="blockquote-footer"> by <cite
+                                title="Sourse Title">{{ comment.name|capfirst }} / {{ comment.created_date }}</cite></p>
+                    </blockquote>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if user.is_authenticated %}
+            <div class="container">
+                <div class="col-12">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom md-4"></legend>
+                            {{ form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button class="btn btn-outline-info" type="submit">Leave Comment</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="form-group">
+                <a href="{% url 'login' %}">
+                    <button class="btn btn-outline-info" type="submit">Leave Comment</button>
+                </a>
+
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock content %}

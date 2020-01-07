@@ -1,0 +1,199 @@
+{% extends "doctors/index.html" %}
+{% load static %}
+{% block content %}
+    <body class="single-page blog-page">
+    <header class="site-header">
+        <div class="nav-bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="site-branding d-flex align-items-center">
+                            <a class="d-block" href="{% url 'index' %}" rel="home"><img class="d-block"
+                                                                                 src="{% static 'assets/images/logo.png' %}"
+                                                                                 alt="logo"></a>
+                        </div><!-- .site-branding -->
+
+                        <nav class="site-navigation d-flex justify-content-end align-items-center">
+                            <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-items-center">
+                                <li class="current-menu-item"><a href="{% url 'index' %}">Home</a></li>
+                                <li><a href="{% url 'about' %}">About us</a></li>
+                                <li><a href="{% url 'services' %}">Services</a></li>
+                                <li><a href="{% url 'news' %}">News</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+
+                                <li class="call-btn button gradient-bg mt-3 mt-md-0">
+                                    <a class="d-flex justify-content-center align-items-center"
+                                       href="tel:+996771872351"><img
+                                            src="{% static 'assets/images/emergency-call.png' %}"> +996771872351</a>
+                                </li>
+                            </ul>
+                        </nav><!-- .site-navigation -->
+
+                        <div class="hamburger-menu d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div><!-- .hamburger-menu -->
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .container -->
+        </div><!-- .nav-bar -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>News</h1>
+
+                    <div class="breadcrumbs">
+                        <ul class="d-flex flex-wrap align-items-center p-0 m-0">
+                            <li><a href="#">Home</a></li>
+                            <li>News</li>
+                        </ul>
+                    </div><!-- .breadcrumbs -->
+                </div>
+            </div>
+        </div>
+
+        <img class="header-img" src="{% static 'assets/images/news-bg.png' %} " alt="">
+    </header><!-- .site-header -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="the-news">
+                    <div class="row">
+                        {% for doc in news %}
+                            <div class="col-12 col-md-6">
+                                <div class="the-news-wrap">
+                                    <figure class="post-thumbnail">
+                                        <a href="#"><img src="{{ doc.photo.url }}" alt=""></a>
+                                    </figure>
+
+                                    <header class="entry-header">
+                                        <h3>{{ doc.subject }}</h3>
+
+                                        <div class="post-metas d-flex flex-wrap align-items-center">
+                                            <div class="posted-date"><label>Date: </label><a
+                                                    href="#">{{ doc.created_date }}</a></div>
+
+                                            <div class="posted-by"><label>By: </label><a href="#">{{ doc.author }}</a>
+                                            </div>
+
+                                            <div class="post-comments"><a href="#">2 Comments</a></div>
+                                        </div>
+                                    </header>
+
+                                    <div class="entry-content">
+                                        <p>{{ doc.text |linebreaks|truncatewords:25 }}</p>
+                                    </div>
+
+                                    <footer class="entry-footer mt-5">
+                                        <a class="button gradient-bg" href="{% url 'post-detail' doc.id %}">Read
+                                            More</a>
+                                    </footer>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {% if user.is_authenticated and  user.profile.role == 2  or  user.profile.role == 3 %}
+                            <div class="col-12 col-md-6">
+                                <div class="the-news-wrap">
+                                    <figure class="post-thumbnail">
+                                        <a href="#"><img src="#" alt=""></a>
+                                    </figure>
+
+                                    <header class="entry-header">
+                                        <h3>Title</h3>
+
+                                        <div class="post-metas d-flex flex-wrap align-items-center">
+                                            <div class="posted-date"><label>Date: </label><a
+                                                    href="#">Created Date:</a></div>
+
+                                            <div class="posted-by"><label>By: </label><a href="#">Author</a>
+                                            </div>
+
+                                            <div class="post-comments"><a href="#">2 Comments</a></div>
+                                        </div>
+                                    </header>
+                                    <footer class="entry-footer mt-5">
+                                        <a class="button gradient-bg" href="{% url 'post-create' %}">Create
+                                        </a>
+                                    </footer>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="col-12">
+                            <ul class="pagination d-flex flex-wrap align-items-center p-0">
+                                <li class="active"><a href="#">01</a></li>
+                                <li><a href="#">02</a></li>
+                                <li><a href="#">03</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="sidebar">
+                    <div class="search-widget">
+                        <form class="flex flex-wrap align-items-center">
+                            <input type="search" placeholder="Search...">
+                            <button type="submit" class="flex justify-content-center align-items-center">Search</button>
+                        </form><!-- .flex -->
+                    </div><!-- .search-widget -->
+
+                    <div class="sidebar-cats">
+                        <h2 class="widget-title">Categories</h2>
+
+                        <ul class="p-0 m-0">
+                            <li><a href="#">Radiology</a></li>
+                            <li><a href="#">Cardiology</a></li>
+                            <li><a href="#">Gastroenterology</a></li>
+                            <li><a href="#">Neurology</a></li>
+                            <li><a href="#">General surgery</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="popular-posts">
+                        <h2 class="widget-title">Latest Posts</h2>
+
+                        <ul class="p-0 m-0">
+                            {% for doc in news %}
+                            <li class="d-flex flex-wrap justify-content-between">
+                                <figure><a href="#"><img src="{% static 'assets/images/p-1.jpg' %}" alt=""></a></figure>
+
+                                <div class="entry-content">
+                                    <h3 class="entry-title"><a href="{% url 'post-detail' doc.id %}">{{ doc.subject }}</a></h3>
+
+                                    <div class="posted-date">{{ doc.created_date }}</div>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div><!-- .cat-links -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="subscribe-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8 offset-lg-2">
+                    <h2>Subscribe to our newsletter</h2>
+
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.email }}
+                        <p></p>
+                        <button type="submit" class="save btn btn-default btn-submit button gradient-bg">Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

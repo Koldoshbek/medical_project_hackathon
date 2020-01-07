@@ -1,0 +1,154 @@
+{% extends "doctors/index.html" %}
+{% load static %}
+<!-- container -->
+{% block content %}
+    <body class="single-page">
+    <header class="site-header">
+        <div class="nav-bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="site-branding d-flex align-items-center">
+                            <a class="d-block" href="index.html" rel="home"><img class="d-block"
+                                                                                 src="{% static 'assets/images/logo.png' %}"
+                                                                                 alt="logo"></a>
+                        </div><!-- .site-branding -->
+
+                        <nav class="site-navigation d-flex justify-content-end align-items-center">
+                            <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-items-center">
+                                <li class="current-menu-item"><a href="{% url 'index' %}">Home</a></li>
+                                <li><a href="{% url 'about' %}">About us</a></li>
+                                <li><a href="{% url 'services' %}">Services</a></li>
+                                <li><a href="{% url 'news' %}">News</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+
+                                <li class="call-btn button gradient-bg mt-3 mt-md-0">
+                                    <a class="d-flex justify-content-center align-items-center" href="#"><img
+                                            src="{% static 'assets/images/emergency-call.png' %}"> +34 586 778 8892</a>
+                                </li>
+                            </ul>
+                        </nav><!-- .site-navigation -->
+
+                        <div class="hamburger-menu d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div><!-- .hamburger-menu -->
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .container -->
+        </div><!-- .nav-bar -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Appointments</h1>
+
+                    <div class="breadcrumbs">
+                        <ul class="d-flex flex-wrap align-items-center p-0 m-0">
+                            <li><a href="#">Home</a></li>
+                            <li>Profile</li>
+                        </ul>
+                    </div><!-- .breadcrumbs -->
+
+                </div>
+            </div>
+        </div>
+
+        <img class="header-img" src="{% static 'assets/images/about-bg.png' %}" alt="">
+    </header><!-- .site-header -->
+
+    <div class="homepage-boxes">
+        <div class="container" style="background-color: #f0f4f8; border-radius: 15px">
+            <div class="row">
+                <div class="col-12">
+                    <div class="col-12" style="text-align: center">
+                        <img class="rounded-circle account-img" src="{{ doctors.profile.photo.url }}">
+                        <br>
+                        <br>
+                    </div>
+                    <div class="container" style="border-radius: 5px;background-color:lightblue">
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-2"><p></p>Doctors name<p></p></div>
+                            <div class="col-12 col-md-6 col-lg-2"><p></p>Your email<p></p></div>
+                            <div class="col-12 col-md-6 col-lg-2"><p></p>Date<p></p></div>
+                            <div class="col-12 col-md-6 col-lg-2"><p></p>Time<p></p></div>
+                            <div class="col-12 col-md-6 col-lg-2"><p></p>Update<p></p></div>
+                            <div class="col-12 col-md-6 col-lg-2"><p></p>Denied<p></p></div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <p></p>
+                    {% for client in clients %}
+                        {% if client.name == doctors.first_name and client.waiting == '0' %}
+                            <div class="container" style="border-radius: 5px;background-color:lightgoldenrodyellow">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.doctor }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.email }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.date }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.time }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p>
+                                       <h5> Waiting</h5>
+                                        <p></p>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> <a
+                                            href="{% url 'deny' client.id %}"><img
+                                            style="width: 40px; height: 40px;border-radius: 28px"
+                                            src="{% static 'assets/images/denied.jpg' %}"
+                                            alt=""></a>
+                                        <p></p></div>
+                                </div>
+                            </div>
+                            <p></p>
+                        {% elif client.name == doctors.first_name and client.waiting == '2' %}
+                            <div class="container" style="border-radius: 5px;background-color:lightcoral">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.doctor }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.email }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.date }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.time }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p>
+                                       <h5> Denied</h5>
+                                        <p></p>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> <a
+                                            href="{% url 'delete' client.id %}"><img
+                                            style="width: 40px; height: 40px;border-radius: 22px"
+                                            src="{% static 'assets/images/denied.jpg' %}"
+                                            alt=""></a>
+                                        <p></p></div>
+                                </div>
+                            </div>
+                            <p></p>
+                        {% elif client.name == doctors.first_name and client.waiting == '1' %}
+                            <div class="container" style="border-radius: 5px;background-color:lightgreen">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.doctor }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.email }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.date }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> {{ client.time }} <p></p></div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p>
+                                       <h5> Accepted</h5>
+                                        <p></p>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-2"><p></p> <a
+                                            href="{% url 'deny' client.id %}"><img
+                                            style="width: 40px; height: 40px;border-radius: 22px"
+                                            src="{% static 'assets/images/denied.jpg' %}"
+                                            alt=""></a>
+                                        <p></p></div>
+                                </div>
+                            </div>
+                            <p></p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock content %}

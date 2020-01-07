@@ -1,0 +1,67 @@
+{% extends "doctors/index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- container -->
+{% block content %}
+    <body class="single-page">
+    <header class="site-header">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Appointments</h1>
+
+                    <div class="breadcrumbs">
+                        <ul class="d-flex flex-wrap align-items-center p-0 m-0">
+                            <li><a href="#">Home</a></li>
+                            <li>Profile</li>
+                        </ul>
+                    </div><!-- .breadcrumbs -->
+
+                </div>
+            </div>
+        </div>
+
+        <img class="header-img" src="{% static 'assets/images/about-bg.png' %}" alt="">
+    </header><!-- .site-header -->
+
+    <div class="homepage-boxes">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <div class="opening-hours">
+                                            <h2 class="d-flex align-items-center">Opening Hours</h2>
+
+                                            <ul class="p-0 m-0">
+                                                <li>Monday<span>{{ p_form.monday_am }} - {{ p_form.monday_pm }}</span></li>
+                                                <li>Tuesday<span>{{ p_form.tuesday_am }} - {{ p_form.tuesday_pm }}</span></li>
+                                                <li>Wednesday <span>{{ p_form.wednesday_am }} - {{ p_form.wednesday_pm }}</span></li>
+                                                <li>Thursday <span>{{ p_form.thursday_am }} - {{ p_form.thursday_pm }}</span></li>
+                                                <li>Friday <span>{{ p_form.friday_am }} - {{ p_form.friday_pm }}</span></li>
+                                                <li>Saturday <span>{{ p_form.saturday_am }} - {{ p_form.saturday_pm }}</span></li>
+                                                <li>Sunday <span>{{ p_form.sunday_am }} - {{ p_form.sunday_pm }}</span></li>
+                                            </ul>
+                                        </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <button class="btn btn-outline-info" type="submit">Update</button>
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}
